@@ -1,7 +1,7 @@
 import string
 import time
 import random
-from scapy.all import send, sendp, ARP, LLC
+from scapy.all import send, sendp, ARP, LLC, IP
 
 # You are not allowed to change CovertChannelBase class, please make your implementation in the MyCovertChannel class.
 class CovertChannelBase:
@@ -18,7 +18,7 @@ class CovertChannelBase:
         - You must send each packet by using this function.
         - Call this function with the packet and sender's interface (Default interface is "eth0" and you do not have to set unless there is a specific purpose.)
         """
-        if packet.haslayer(ARP) or packet.haslayer(LLC):
+        if packet.haslayer(ARP) or packet.haslayer(LLC) or packet.haslayer(IP):
             sendp(packet, iface=interface, verbose=False)
         else:
             send(packet, iface=interface, verbose=False)
