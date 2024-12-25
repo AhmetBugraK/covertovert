@@ -2,14 +2,14 @@
   "covert_channel_code": "CSC-PSV-IP-ID",
   "send": {
     "parameters": {
-      "parameter1": "192.168.1.2",
+      "parameter1": "172.18.0.3",
       "parameter2": 5678,
       "log_file_name": "Example_CovertChannelSender.log"
     }
   },
   "receive": {
     "parameters": {
-      "parameter1": "192.168.1.2",
+      "parameter1": "172.18.0.3",
       "parameter2": 5678,
       "parameter3": "additional_rule",
       "log_file_name": "Example_CovertChannelReceiver.log"
