@@ -27,10 +27,8 @@ The covert channel capacity was calculated using the following steps:
 1. A binary message of length `128` bits (16 characters) was prepared.  
 2. The timer was started just before sending the first packet and stopped immediately after sending the last packet.  
 3. The elapsed time was measured in seconds.  
-4. The covert channel capacity was computed as:  
-   \[
-   \text{Covert Channel Capacity} = \frac{\text{128 bits}}{\text{Elapsed Time (seconds)}}
-   \]  
+4. The covert channel capacity was computed as:   
+   `Covert Channel Capacity = 128 bits / Elapsed Time (seconds)`
 5. The calculated covert channel capacity is: **12.03 bits/second**.  
 
 ## Log Files  
