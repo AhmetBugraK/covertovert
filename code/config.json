@@ -5,7 +5,7 @@
       "destination": "172.18.0.3",
       "encoding0": [200,400,600,800],
       "encoding1": [100,300,500,700,900],
-      "log_file_name": "Example_CovertChannelSender.log"
+      "log_file_name": "CovertChannelSender.log"
     }
   },
   "receive": {
@@ -13,7 +13,7 @@
       "destination": "172.18.0.3",
       "encoding0": [200,400,600,800],
       "encoding1": [100,300,500,700,900],
-      "log_file_name": "Example_CovertChannelReceiver.log"
+      "log_file_name": "CovertChannelReceiver.log"
     }
   }
 }
