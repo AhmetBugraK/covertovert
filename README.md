@@ -1,43 +1,39 @@
-# Covert Communication Channel Project  
+# COVERTOVERT
+Open source implementation of "network" covert channels.
 
-## Project Description  
-This project demonstrates the implementation of a covert communication channel between two containers using the Python Scapy module. The communication is achieved by encoding and decoding data in the ID field of IP packets, enabling a unidirectional covert channel. This method leverages the IP identification field to ensure data confidentiality.  
+## Installation
 
-## Algorithm Explanation  
-The covert communication channel works as follows:  
+Install docker (and optionally compose V2 plugin - not the docker-compose!) and VSCode on your sytstem. Run the docker containers as non-root users.
 
-1. **Encoding at the Sender**  
-   - The sender converts the text message into binary values.  
-   - Each bit is transmitted as part of the ID field of an IP packet:  
-     - If the bit is `1`, the IP identification field is set to a random value starting with numbers like 100, 300, 500 (e.g., 110, 740).  
-     - If the bit is `0`, a random value starting with numbers like 200, 400, 600 is used.  
-   - The sender logs the binary message being sent into a `.log` file for verification.  
+To start sender and receiver containers:
+```
+docker compose up -d
+```
 
-2. **Decoding at the Receiver**  
-   - The receiver extracts the ID field from the incoming IP packets.  
-   - Values starting with 100, 300, or 500 are decoded as `1`.  
-   - Values starting with 200, 400, or 600 are decoded as `0`.  
-   - These binary values are grouped into 8-bit segments and converted back into the original text message.  
-   - The receiver logs the decoded message into a separate `.log` file.  
+To stop sender and receiver containers:
+```
+docker compose down
+```
 
-This encoding/decoding scheme enables the transmission of one bit per packet.  
+Note that, if you orchestrate your containers using docker compose, the containers will have hostnames ("sender" and "receiver") and DNS will be able to resolve them...
 
-## Covert Channel Capacity  
-The covert channel capacity was calculated using the following steps:  
-1. A binary message of length 128 bits (16 characters) was prepared.  
-2. The timer was started just before sending the first packet and stopped immediately after sending the last packet.  
-3. The elapsed time was measured in seconds.  
-4. The covert channel capacity was computed as:   
-   `Covert Channel Capacity = 128 bits / Elapsed Time (seconds)`
-5. The calculated covert channel capacity is: **12.03 bits/second**.  
+In one terminal, attach to the sender container
+```
+docker exec -it sender bash
+```
+In another terminal, attach to the receiver container
+```
+docker exec -it receiver bash
+```
 
-## Log Files  
-- **Sender Log** (`CovertChannelSender.log`): Contains the binary message sent by the sender for verification.  
-- **Receiver Log** (`CovertChannelReceiver.log`): Contains the decoded message received for comparison and validation.  
+and you will be in your Ubuntu 22.04 Docker instance (python3.10.12 and scapy installed). After running the Ubuntu Docker, you can type "ip addr" or "ifconfig" to see your network configuration (work on eth0).
 
-These log files ensure the accuracy and reliability of the data transmission process.  
+Docker extension of VSCode will be of great benefit to you.
 
-## Conclusion  
-This project successfully establishes a covert communication channel using the IP identification field. The encoding and decoding algorithms effectively transmit data while maintaining confidentiality. The achieved covert channel capacity of **12.03 bits/second** demonstrates the efficiency of the implementation.  
+Note that if you develop code in these Docker instances and you stop the machine, your code will be lost. That is why it is recommended to use Github to store your code and clone in the machine, and push your code to Github before shutting the Docker instances down. The other option is to work in the /app folder in the sender and receiver Docker instances which are mounted to the "code" directory of your own machine.
 
----
+**IMPORTANT** Note that the "code" folder on your local machine are mounted to the "/app" folder (be careful it is in the root folder) in the sender and receiver Docker instances (read/write mode). You can use these folders (they are the same in fact) to develop your code. Other than the /app folder, this tool does not guarantee any persistent storage: if you exit the Docker instance, all data will be lost.
+
+You can develop your code on your local folders ("code/sender" and "code/receiver") on your own host machine, they will be immediately synchronized with the "/app" folder on containers. The volumes are created in read-write mode, so changes can be made both on the host or on the containers. You can run your code on the containers.
+
+Additionally, the local "examples" folder is mapped to the "/examples" folder in the containers. In that folder, there is a covert timing channel example including sender, receiver and base classes. In the second phase, you will implement a similar system, so it is recommended to look at the example for now.
