@@ -1,6 +1,7 @@
 from CovertChannelBase import CovertChannelBase
 from scapy.all import IP, sniff
 import random
+import time
 
 
 class MyCovertChannel(CovertChannelBase):
@@ -17,7 +18,10 @@ class MyCovertChannel(CovertChannelBase):
         - Logs the generated message to a file specified by log_file_name.
         """
 
-        binary_message = self.generate_random_binary_message_with_logging(log_file_name)
+        binary_message = self.generate_random_binary_message_with_logging(log_file_name, 16, 16)
+        
+        # Start the timer
+        start_time = time.time()
         
         for bit in binary_message:
             rand_99 = random.randint(1, 99)
@@ -26,6 +30,17 @@ class MyCovertChannel(CovertChannelBase):
             packet = IP(id=ip_id, dst=destination)
             
             super().send(packet)
+        
+        
+        # End the timer
+        end_time = time.time()
+        
+        # Calculate elapsed time and covert channel capacity
+        elapsed_time = end_time - start_time
+        covert_channel_capacity = 128 / elapsed_time
+
+        # Print the capacity
+        print(f"Covert Channel Capacity: {covert_channel_capacity:.2f} bits/second")
 
 
 
