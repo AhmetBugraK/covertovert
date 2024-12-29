@@ -6,7 +6,13 @@
 Covert Channel documentation
 ============================
 
-Please add your names, group ID, and your link to the forked public repository here by editing `index.rst` in the docs folder.
+Can Okulmuş
+
+Ahmet Buğra Karabölük
+
+Group47
+
+https://github.com/AhmetBugraK/covertovert
 
 
 .. toctree::
